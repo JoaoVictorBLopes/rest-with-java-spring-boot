@@ -1,4 +1,4 @@
-package br.com.projetos;
+package br.com.projetos.services;
 
 import br.com.projetos.model.Person;
 import org.springframework.stereotype.Service;

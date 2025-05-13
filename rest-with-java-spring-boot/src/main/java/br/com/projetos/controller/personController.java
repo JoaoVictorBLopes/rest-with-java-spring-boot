@@ -1,12 +1,11 @@
 package br.com.projetos.controller;
 
-import br.com.projetos.PersonServices;
+import br.com.projetos.services.PersonServices;
 import br.com.projetos.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController
