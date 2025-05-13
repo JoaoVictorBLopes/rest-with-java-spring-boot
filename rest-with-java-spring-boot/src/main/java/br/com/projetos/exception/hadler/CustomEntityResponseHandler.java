@@ -2,7 +2,6 @@ package br.com.projetos.exception.hadler;
 
 import br.com.projetos.exception.ExceptionResponse;
 import br.com.projetos.exception.ResourceNotFoundException;
-import br.com.projetos.exception.UnsupportedMathOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
