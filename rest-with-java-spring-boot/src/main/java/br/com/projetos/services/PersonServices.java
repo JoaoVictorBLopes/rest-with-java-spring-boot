@@ -1,5 +1,6 @@
 package br.com.projetos.services;
 
+import br.com.projetos.data.dto.PersonDTO;
 import br.com.projetos.exception.ResourceNotFoundException;
 import br.com.projetos.model.Person;
 import br.com.projetos.repository.PersonRepository;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import static br.com.projetos.mapper.ObjectMapper.parseObjects;
+import static br.com.projetos.mapper.ObjectMapper.parseListObjects;
 
 @Service
 public class PersonServices {
@@ -18,22 +21,24 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
-    public List<Person> findAll() {
-        return repository.findAll();
+    public List<PersonDTO> findAll() {
+        return parseListObjects(repository.findAll(), PersonDTO.class);
     }
 
-    public Person findById(Long id) {
+    public PersonDTO findById(Long id) {
         logger.info("Finding one Person!");
-        return repository.findById(id)
+        var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        return parseObjects(entity, PersonDTO.class);
     }
 
-    public Person create(Person person) {
+    public PersonDTO create(PersonDTO person) {
         logger.info("Create one Person!");
-        return repository.save(person);
+        var entity = parseObjects(person, Person.class);
+        return parseObjects(repository.save(entity), PersonDTO.class);
     }
 
-    public Person update(Person person) {
+    public PersonDTO update(PersonDTO person) {
         logger.info("Updating one Person!");
         Person entity = repository.findById(person.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
@@ -43,7 +48,7 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return repository.save(person);
+        return parseObjects(repository.save(entity), PersonDTO.class);
     }
 
     public void delete(Long id) {
