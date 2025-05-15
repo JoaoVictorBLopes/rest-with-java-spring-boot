@@ -1,7 +1,9 @@
 package br.com.projetos.services;
 
-import br.com.projetos.data.dto.PersonDTO;
+import br.com.projetos.data.dto.v1.PersonDTO;
+import br.com.projetos.data.dto.v2.PersonDTOV2;
 import br.com.projetos.exception.ResourceNotFoundException;
+import br.com.projetos.mapper.custom.PersonMapper;
 import br.com.projetos.model.Person;
 import br.com.projetos.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -21,6 +23,9 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
+    @Autowired
+    PersonMapper converter;
+
     public List<PersonDTO> findAll() {
         return parseListObjects(repository.findAll(), PersonDTO.class);
     }
@@ -36,6 +41,12 @@ public class PersonServices {
         logger.info("Create one Person!");
         var entity = parseObjects(person, Person.class);
         return parseObjects(repository.save(entity), PersonDTO.class);
+    }
+
+    public PersonDTOV2 createV2(PersonDTOV2 person) {
+        logger.info("Create one Person V2!");
+        var entity = converter.convertDTOtoEntity(person);
+        return converter.convertEntityToDTO(repository.save(entity));
     }
 
     public PersonDTO update(PersonDTO person) {

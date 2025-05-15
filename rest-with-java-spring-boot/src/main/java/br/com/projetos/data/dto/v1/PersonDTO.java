@@ -1,4 +1,4 @@
-package br.com.projetos.data.dto;
+package br.com.projetos.data.dto.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
