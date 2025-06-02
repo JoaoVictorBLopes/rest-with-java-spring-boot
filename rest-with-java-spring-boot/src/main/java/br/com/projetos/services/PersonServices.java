@@ -2,6 +2,7 @@ package br.com.projetos.services;
 
 import br.com.projetos.controller.personController;
 import br.com.projetos.data.dto.PersonDTO;
+import br.com.projetos.exception.RequiredObjectIsNullException;
 import br.com.projetos.exception.ResourceNotFoundException;
 import br.com.projetos.model.Person;
 import br.com.projetos.repository.PersonRepository;
@@ -18,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class PersonServices {
-    private final AtomicLong counter = new AtomicLong();
+
     private Logger logger = LoggerFactory.getLogger(PersonServices.class.getName());
 
     @Autowired
@@ -40,6 +41,9 @@ public class PersonServices {
     }
 
     public PersonDTO create(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Create one Person!");
         var entity = parseObjects(person, Person.class);
         var dto = parseObjects(repository.save(entity), PersonDTO.class);
@@ -48,6 +52,9 @@ public class PersonServices {
     }
 
     public PersonDTO update(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Updating one Person!");
         Person entity = repository.findById(person.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
