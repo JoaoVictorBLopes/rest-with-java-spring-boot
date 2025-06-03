@@ -1,8 +1,8 @@
 package br.com.projetos.controller;
 
-import br.com.projetos.controller.docs.personControllerDocs;
-import br.com.projetos.data.dto.PersonDTO;
-import br.com.projetos.services.PersonServices;
+import br.com.projetos.controller.docs.BookControllerDocs;
+import br.com.projetos.data.dto.BookDTO;
+import br.com.projetos.services.BookServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/person/v1")
-@Tag(name = "People", description =  "Endpoints for Managing People")
-public class personController implements personControllerDocs {
+@RequestMapping("/api/book/v1")
+@Tag(name = "Book", description =  "Endpoints for Managing Book")
+public class BookController implements BookControllerDocs {
 
     @Autowired
-    private PersonServices service;
+    private BookServices service;
 
     @Override
     @GetMapping(value = "/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE,
                         MediaType.APPLICATION_XML_VALUE,
                         MediaType.APPLICATION_YAML_VALUE})
-    public PersonDTO findById(@PathVariable("id") Long id) {
+    public BookDTO findById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
 
@@ -33,7 +33,7 @@ public class personController implements personControllerDocs {
                             MediaType.APPLICATION_XML_VALUE,
                             MediaType.APPLICATION_YAML_VALUE})
 
-    public List<PersonDTO> findAll() {
+    public List<BookDTO> findAll() {
         return service.findAll();
     }
 
@@ -44,8 +44,8 @@ public class personController implements personControllerDocs {
                 produces = {MediaType.APPLICATION_JSON_VALUE,
                             MediaType.APPLICATION_XML_VALUE,
                             MediaType.APPLICATION_YAML_VALUE})
-    public PersonDTO create(@RequestBody PersonDTO person) {
-        return service.create(person);
+    public BookDTO create(@RequestBody BookDTO book) {
+        return service.create(book);
     }
 
     @Override
@@ -55,8 +55,8 @@ public class personController implements personControllerDocs {
                 produces = {MediaType.APPLICATION_JSON_VALUE,
                             MediaType.APPLICATION_XML_VALUE,
                             MediaType.APPLICATION_YAML_VALUE})
-    public PersonDTO update(@RequestBody PersonDTO person) {
-        return service.update(person);
+    public BookDTO update(@RequestBody BookDTO book) {
+        return service.update(book);
     }
 
     @Override
