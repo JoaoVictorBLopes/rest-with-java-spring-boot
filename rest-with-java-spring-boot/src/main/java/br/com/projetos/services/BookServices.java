@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 import static br.com.projetos.mapper.ObjectMapper.parseListObjects;
 import static br.com.projetos.mapper.ObjectMapper.parseObjects;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -27,9 +25,9 @@ public class BookServices {
     BookRepository repository;
 
     public List<BookDTO> findAll() {
-        var persons = parseListObjects(repository.findAll(), BookDTO.class);
-        persons.forEach(this::addHateoasLinks);
-        return persons;
+        var books = parseListObjects(repository.findAll(), BookDTO.class);
+        books.forEach(this::addHateoasLinks);
+        return books;
     }
 
     public BookDTO findById(Long id) {
@@ -41,29 +39,29 @@ public class BookServices {
         return dto;
     }
 
-    public BookDTO create(BookDTO person) {
+    public BookDTO create(BookDTO book) {
 
-        if (person == null) throw new RequiredObjectIsNullException();
+        if (book == null) throw new RequiredObjectIsNullException();
 
         logger.info("Create one Book!");
-        var entity = parseObjects(person, Book.class);
+        var entity = parseObjects(book, Book.class);
         var dto = parseObjects(repository.save(entity), BookDTO.class);
         addHateoasLinks(dto);
         return dto;
     }
 
-    public BookDTO update(BookDTO person) {
+    public BookDTO update(BookDTO book) {
 
-        if (person == null) throw new RequiredObjectIsNullException();
+        if (book == null) throw new RequiredObjectIsNullException();
 
         logger.info("Updating one Book!");
-        Book entity = repository.findById(person.getId())
+        Book entity = repository.findById(book.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
-        entity.setAuthor(person.getAuthor());
-        entity.setLaunchDate(person.getLaunchDate());
-        entity.setPrice(person.getPrice());
-        entity.setTitle(person.getTitle());
+        entity.setAuthor(book.getAuthor());
+        entity.setLaunchDate(book.getLaunchDate());
+        entity.setPrice(book.getPrice());
+        entity.setTitle(book.getTitle());
 
         var dto = parseObjects(repository.save(entity), BookDTO.class);
         addHateoasLinks(dto);
